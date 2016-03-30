@@ -75,60 +75,18 @@ var templateFactory = function (options) {
 	getHtml = function() {
 		return this.newTemplate.html;
 	},
-	attachEvent = function (events) {
-		var eventId,
-			event,
-			element;
-		for (eventId in events) {
-			if ((!events.hasOwnProperty(eventId))){
-				continue;
-			}
-			event = events[eventId];
-			domElementId = event.id || false;
-			domElementClass = event.class || false;
 
-			if(domElementId){
-				element = document.getElementById(domElementId);
-			}else if(domElementClass) {
-				element = document.getElementByClass(domElementClass);
-			}
-
-			if (element) {
-				element.addEventListener(event.type, event.operation);
-				window.boldDebug.add({type: "events", stringArray: "Dodaje event do " + (domElementId || domElementClass)});
-			}
-		}
-	},
 	constructor = (function(){
 		this.options = window.boldExtend(defaultOptions, options);
 		create(this.options);
 	appendToBody();
-		if (this.options.events) {
-			window.boldDebug.add({type: "events", stringArray: "Dodaje eventy do templatu: " + this.newTemplate.name});
-			attachEvent(this.options.events);
-		}
+	
 	}());
 
 	return getHtml();
 };
 
 
-
-// TWORZENIE
-
-// POKAZ I UKRYJ
-
-// PRELOADER
-
-// EVENTY
-
-// CALLBACKS
-
-// POZYCJONOWANIE + CSS POZYCJE ITD
-
-// TŁUMACZENIA
-
-// API
 return {
 	new : "",
 	data: "",

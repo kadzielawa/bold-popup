@@ -1,0 +1,90 @@
+/* line 13, ../sass/style.scss */
+body {
+  font-family: "Open Sans", "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5em;
+  font-weight: 400;
+}
+
+/* line 20, ../sass/style.scss */
+p, span, a, ul, li, button {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+/* line 27, ../sass/style.scss */
+strong {
+  font-weight: 600;
+}
+
+/* line 31, ../sass/style.scss */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Open Sans", "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5em;
+  font-weight: 300;
+}
+
+/* line 37, ../sass/style.scss */
+strong {
+  font-weight: 400;
+}
+
+/* line 41, ../sass/style.scss */
+.tile {
+  width: 100%;
+  display: inline-block;
+  box-sizing: border-box;
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+/* line 49, ../sass/style.scss */
+.tile .title {
+  margin-top: 0px;
+}
+/* line 53, ../sass/style.scss */
+.tile.purple, .tile.blue, .tile.red, .tile.orange, .tile.green {
+  color: #fff;
+}
+/* line 57, ../sass/style.scss */
+.tile.purple {
+  background: #5133AB;
+}
+/* line 60, ../sass/style.scss */
+.tile.purple:hover {
+  background: #3e2784;
+}
+/* line 65, ../sass/style.scss */
+.tile.red {
+  background: #AC193D;
+}
+/* line 68, ../sass/style.scss */
+.tile.red:hover {
+  background: #7f132d;
+}
+/* line 73, ../sass/style.scss */
+.tile.green {
+  background: #00A600;
+}
+/* line 76, ../sass/style.scss */
+.tile.green:hover {
+  background: #007300;
+}
+/* line 81, ../sass/style.scss */
+.tile.blue {
+  background: #2672EC;
+}
+/* line 84, ../sass/style.scss */
+.tile.blue:hover {
+  background: #125acd;
+}
+/* line 89, ../sass/style.scss */
+.tile.orange {
+  background: #DC572E;
+}
+/* line 92, ../sass/style.scss */
+.tile.orange:hover {
+  background: #b8431f;
+}
