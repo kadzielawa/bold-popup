@@ -23,7 +23,7 @@ Popup.prototype.css = function(properties) {
 	element = document.getElementById("boldPopup");
 	console.log(element.style);
 	for(prop in properties) {
-		element.style["prop"] = properties[prop];
+		element.style[prop] = properties[prop];
 	} 
 	return this;
 }
