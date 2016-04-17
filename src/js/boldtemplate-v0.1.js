@@ -54,7 +54,7 @@ var templateFactory = function (options) {
 	loadSource = function (options) {
 		var source;
 		if (this.options.source === "DOM") {
-			source = document.getElementById(options.id).innerHTML;
+			source = document.getElementById(options.options.script).innerHTML;
 		}
 		this.newTemplate.setParam("source", source);
 		if (this.options.autoBind) {
@@ -69,8 +69,22 @@ var templateFactory = function (options) {
 		this.newTemplate.setParam("html", html);
 		window.boldDebug.add({type: "TEMPLATES", stringArray: "Bindowanie danych do szablonu: " + this.newTemplate.name});
 	},
-	appendToBody = function(){
-		document.body.innerHTML += this.newTemplate.html;
+	givePopup = function(){
+		var popupOptions = this.options.options;
+		
+		var parent = document.querySelector(popupOptions.parent);
+		if(parent === null) 
+			document.body.innerHTML +=this.newTemplate.html;
+		else
+			parent.innerHTML += this.newTemplate.html;
+		// determine if element show automatically during the start
+		var element = document.querySelector(popupOptions.element);
+		if(popupOptions.showAuto === false)
+			element.style.display = "none";
+		if(popupOptions.timeout)
+		setTimeout(function() {
+			element.style.display = "none";
+		},popupOptions.timeout * 1000);
 	},
 	getHtml = function() {
 		return this.newTemplate.html;
@@ -79,7 +93,7 @@ var templateFactory = function (options) {
 	constructor = (function(){
 		this.options = window.boldExtend(defaultOptions, options);
 		create(this.options);
-	appendToBody();
+		givePopup();
 	
 	}());
 

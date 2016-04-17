@@ -51,7 +51,9 @@ window.boldDebug = (function (msg) {
 	i = 0;
 
 	add = function(msg) {
+		msg = msg.stringArray;
 		if (typeof msg === 'object' && msg.type && msg.stringArray) {
+
 			if (notices[msg.type]) {
 				notices[msg.type].push(msg.stringArray);
 			}else{
@@ -105,3 +107,12 @@ window.boldDebug = (function (msg) {
 	};
 	
 }());
+
+function insertAfter(newElement,targetElement) {
+    var parent = targetElement.parentNode;
+    if(parent.lastchild == targetElement) {
+        parent.appendChild(newElement);
+        } else {
+        parent.insertBefore(newElement, targetElement.nextSibling);
+        }
+}

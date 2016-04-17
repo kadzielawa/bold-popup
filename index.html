@@ -15,9 +15,18 @@
   <script src="lib/handlebars-v4.0.5.min.js"></script>
   <!-- JS TEMPLATES -->
   <script type="template/text" id="basicTemplate">
-	<div id="boldPopup">
-		<h2>boldPopup - basic template</h2>
-		<p>basic paragraph with var mainText {{mainText}}</p>
+	<div id="boldPopup" class="popup-style">
+		<p>taki tam basic paragraph with var mainText {{mainText}}</p>
+		<button id="{{buttonId}}">button with event alert by id</button>
+		<button id="{{buttonIdDwa}}">drugi</button>
+	</div>
+	<div class=""></div>
+  </script>
+
+   <!-- JS TEMPLATES -->
+  <script type="template/text" id="basicTemplate2">
+	<div id="boldPopup2" class="popup-style">
+		<p>taki tam drugi popupik {{mainText}}</p>
 		<button id="{{buttonId}}">button with event alert by id</button>
 		<button id="{{buttonIdDwa}}">drugi</button>
 	</div>
@@ -25,6 +34,22 @@
   </script>
   <!-- JS SRC -->
   <script src="src/js/utils.js"></script>
+  <style>
+
+  	.popup-style {
+    	background-color: violet;
+  		z-index: 100;
+    	position: absolute;
+    	top:50%;
+    	left:50%;
+    	top: 50%;
+	    left: 50%;
+	    width: 200px;
+	    height: 200px;
+	    margin-left: -100px;
+	    margin-top: -100px;
+      	}
+  </style>
 </head>
 
 <body>
