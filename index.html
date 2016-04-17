@@ -18,7 +18,7 @@
 	<div id="boldPopup" class="popup-style">
 		<p>taki tam basic paragraph with var mainText {{mainText}}</p>
 		<button id="{{buttonId}}">button with event alert by id</button>
-		<button id="{{buttonIdDwa}}">drugi</button>
+		<button id="{{buttonIdDwa}}" >drugi</button>
 	</div>
 	<div class=""></div>
   </script>
@@ -34,6 +34,14 @@
   </script>
   <!-- JS SRC -->
   <script src="src/js/utils.js"></script>
+  <script>
+  	function f1(){
+  		 popupikCzerwony = boldPopup.create({"script":"basicTemplate","element":"#boldPopup","parent":".tile.green"});
+  	}
+  	function f2(){
+  		 popupikBody = boldPopup.create({"script":"basicTemplate2","element":"#boldPopup2"});
+  	}
+  </script>
   <style>
 
   	.popup-style {
@@ -65,14 +73,14 @@
       <div class="tile red">
         <h3 class="title">Okienkowy popup</h3>
         <p>Po kliknieciu dodaję popup do zielonego kafla.</p>
-        <button>Wybierz mnie</button>
+        <button onclick="f1()">Wybierz mnie</button>
       </div>
     </div>
     <div class="col-sm-4">
       <div class="tile purple">
         <h3 class="title">Pełny popup</h3>
         <p>Po kliknieciu dodaję popup do body.</p>
-        <button>Wybierz mnie</button>
+        <button onclick="f2()">Wybierz mnie</button>
       </div>
     </div>
     <div class="col-sm-4">

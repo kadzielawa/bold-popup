@@ -14,6 +14,7 @@ var that = this;
  * @param obj options all of popup's options pass by key:value
  */
 function Popup(options)  {
+	var that = this;
 	//set default options
 	this.options = {"parent" :"body","overlay":1, "timeout":"","autoShow":1,"closeButton":1};
 	for (var opt in options) { 
@@ -24,6 +25,11 @@ function Popup(options)  {
 		{
 			console.error("taki popup nie istnieje!");
 		}
+	
+	if(this.options.closeButton){
+		this.createCloseButton();
+	}
+	
 	//set observator on popup's changes
 	this.setWatcher();
 	//determine if popup needs overlay, if yes, we create it and display
@@ -40,9 +46,16 @@ function Popup(options)  {
  * @return {[type]}         [description]
  */
 var creator = function(options) {
-	var popup = new Popup(options);
-	popups.push(popup);
+	var popup = this.getPopup(options.element);
+	
+	if(typeof popup === 'undefined')
+	{
+		popup = new Popup(options);
+		popups.push(popup);
 	return popup;
+	} else {
+		popup.show();
+	}
 };
 
 /**
@@ -142,6 +155,23 @@ Popup.prototype.css = function(properties) {
 	} 
 	return this;
 }
+
+Popup.prototype.createCloseButton = function() {
+	var that = this;
+	var closeButton = document.createElement("div");
+	closeButton.innerHTML = "X";
+	closeButton.style.position = "absolute";
+	closeButton.style["border-radius"] = "20px";
+	closeButton.style.right = "10px";
+	closeButton.style.top = "10px";
+	closeButton.style.padding = "10px";
+	closeButton.style["background-color"] = "yellow";
+	closeButton.onclick = function() {
+		that.hide();
+	}
+	document.querySelector(that.options.element).appendChild(closeButton);
+}
+
 /**
  * [getContent description]
  * @return {[type]} [description]
@@ -169,9 +199,6 @@ var getPopup = function(popupElement){
 	for(popup in popupArray) {
 		if(popupArray[popup].options.element === popupElement){
 			return popupArray[popup];
-		}
-		else {
-			console.error("popup z takim selektorem nie istnieje!");
 		}
 	}
 }
