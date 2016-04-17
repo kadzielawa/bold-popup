@@ -34,7 +34,20 @@
   </script>
   <!-- JS SRC -->
   <script src="src/js/utils.js"></script>
+  <script src="src/js/boldRequest.js"></script>
   <script>
+	  function prepareRequest() {
+	  //	var request =  document.createElement("script");
+	  //	request.src = "http://bold.localhost/data.php?callback=req1&restauracja=Grota";
+	  //	document.body.appendChild(request);
+
+	  }
+  	function req1(data) {
+  		console.log(data);
+  	}
+  	function req2() {
+
+  	}
   	function f1(){
   		 popupikCzerwony = boldPopup.create({"script":"basicTemplate","element":"#boldPopup","parent":".tile.green"});
   	}
