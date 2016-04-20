@@ -6,8 +6,6 @@ var templates = {},
 
 	}();
 
-// POBIERANIE DANYCH DO SZABLONU (AJAX, ARGUMENTS, DOM)
-
 // SZABLONOWANIE
 function Template (options) {
 	this.html = options.html || "<div class='boldPopup'>example</div>";
@@ -50,6 +48,8 @@ var templateFactory = function (options) {
 		this.newTemplate = new Template(options);
 		this.newTemplate.setParam("id", generateTemplateId());
 		loadSource(options);
+							console.log(options);
+
 	},
 	loadSource = function (options) {
 		var source;
@@ -63,28 +63,16 @@ var templateFactory = function (options) {
 	},
 	bindData = function (data) {
 		var dataToBind = data || this.options.data,
+
 			template = Handlebars.compile(this.newTemplate.source),
 			html = template(dataToBind);
-			
+
 		this.newTemplate.setParam("html", html);
 		window.boldDebug.add({type: "TEMPLATES", stringArray: "Bindowanie danych do szablonu: " + this.newTemplate.name});
 	},
 	givePopup = function(){
 		var popupOptions = this.options.options;
-		
-		var parent = document.querySelector(popupOptions.parent);
-		if(parent === null) 
-			document.body.innerHTML +=this.newTemplate.html;
-		else
-			parent.innerHTML += this.newTemplate.html;
-		// determine if element show automatically during the start
-		var element = document.querySelector(popupOptions.element);
-		if(popupOptions.showAuto === false)
-			element.style.display = "none";
-		if(popupOptions.timeout)
-		setTimeout(function() {
-			element.style.display = "none";
-		},popupOptions.timeout * 1000);
+
 	},
 	getHtml = function() {
 		return this.newTemplate.html;
@@ -93,7 +81,7 @@ var templateFactory = function (options) {
 	constructor = (function(){
 		this.options = window.boldExtend(defaultOptions, options);
 		create(this.options);
-		givePopup();
+		//givePopup();
 	
 	}());
 

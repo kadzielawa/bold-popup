@@ -16,18 +16,33 @@ var that = this;
 function Popup(options)  {
 	var that = this;
 	//set default options
-	this.options = {"parent" :"body","overlay":1, "timeout":"","autoShow":1,"closeButton":1};
+	this.options = {
+		"parent" :"body",
+		"overlay":1, 
+		"timeout":"",
+		"afterClose":"",
+		"afterShow":"",
+		"autoRemove": 0,
+		"autoShow":1,
+		"closeButton":1
+	};
+
+
 	for (var opt in options) { 
 		this.options[opt] = options[opt];
 	}
-	this.content = boldTemplate.loadTemplate({"options": options, data:{mainText: "test tekstu", buttonId: "testButton", buttonIdDwa: "drugiKlikacz"}});
-	if(document.querySelector(options.element) === null)
-		{
-			console.error("taki popup nie istnieje!");
-		}
+	this.content = boldTemplate.loadTemplate({"options": options, "data" : options.data});
+	this.parent = document.querySelector(this.options.parent);
+	this.parent.innerHTML +=this.content;
 	
 	if(this.options.closeButton){
 		this.createCloseButton();
+	}
+
+	this.element = document.querySelector(options.element);
+	if(this.element === null)
+	{
+		console.error("taki popup nie istnieje!");
 	}
 	
 	//set observator on popup's changes
@@ -35,7 +50,6 @@ function Popup(options)  {
 	//determine if popup needs overlay, if yes, we create it and display
 	if(this.options.overlay && this.options.autoShow)
 		{
-			this.createOverlay();
 			this.showOverlay();
 		}
 };
@@ -47,7 +61,7 @@ function Popup(options)  {
  */
 var creator = function(options) {
 	var popup = this.getPopup(options.element);
-	
+
 	if(typeof popup === 'undefined')
 	{
 		popup = new Popup(options);
@@ -62,29 +76,12 @@ var creator = function(options) {
  * [overlay description]
  * @return {[type]} [description]
  */
-Popup.prototype.createOverlay = function() {
-	this.overlay = document.createElement("div");
-	this.overlay.style.bottom="0";
-	this.overlay.style.right="0";
-	this.overlay.style.top="0";
-	this.overlay.style["margin-left"]="15px";
-	this.overlay.style["margin-right"]="15px";
-	this.overlay.style["margin-bottom"]="30px";
-	this.overlay.style.left="0";
-	this.overlay.style.position="absolute";
-	this.overlay.style["background-color"]= "black";
-	this.overlay.style.opacity= "0.6";
-}
-/**
- * [overlay description]
- * @return {[type]} [description]
- */
 Popup.prototype.showOverlay = function() {
 	if(!this.overlay)
-		this.createOverlay();
-	var parent = document.querySelector(this.options.parent);
-	parent.appendChild(this.overlay); 
+		this.overlay = createOverlay();
+	this.parent.appendChild(this.overlay); 
 }
+
 /**
  * [removeOverlay description]
  * @return {[type]} [description]
@@ -92,14 +89,7 @@ Popup.prototype.showOverlay = function() {
 Popup.prototype.removeOverlay = function() {
 	this.overlay.remove();
 }
-/**
- * [getStatus description]
- * @return {[type]} [description]
- */
-Popup.prototype.getElement = function() {
-	var element = document.querySelector(this.options.element);	
-	return element;
-}
+
 /**
  * [setWatcher description]
  */
@@ -114,14 +104,14 @@ Popup.prototype.setWatcher = function() {
     	}  
     });    
 	});
-	observer.observe(that.getElement(), { attributes : true, attributeFilter : ['style'] });
+	observer.observe(that.element, { attributes : true, attributeFilter : ['style'] });
 }
 /**
  * show popup - set popup as active 
  */
 Popup.prototype.show = function() {
 	var that = this;
-	var element = that.getElement();	
+	var element = that.element;	
 	element.style.display="";
 	if(that.options.timeout)
 		setTimeout(function() {
@@ -133,8 +123,7 @@ Popup.prototype.show = function() {
  * hide popup from document (not remove)
  */
 Popup.prototype.hide = function() {
-	var element = this.getElement();	
-	element.style.display="none";
+	this.element.style.display="none";
 };
 
 /**
@@ -155,7 +144,10 @@ Popup.prototype.css = function(properties) {
 	} 
 	return this;
 }
-
+/**
+ * [createCloseButton description]
+ * @return {[type]} [description]
+ */
 Popup.prototype.createCloseButton = function() {
 	var that = this;
 	var closeButton = document.createElement("div");
@@ -167,9 +159,28 @@ Popup.prototype.createCloseButton = function() {
 	closeButton.style.padding = "10px";
 	closeButton.style["background-color"] = "yellow";
 	closeButton.onclick = function() {
-		that.hide();
+	if(that.options.autoRemove)
+		that.removePopup();
+	that.hide();
 	}
 	document.querySelector(that.options.element).appendChild(closeButton);
+}
+
+/**
+ * [getContent description]
+ * @return {[type]} [description]
+ */
+Popup.prototype.removePopup = function() {
+	var that = this;
+	var counter = 0;
+	var popupArray = boldPopup.popups;
+	for(popup in popupArray) {
+		if(popupArray[popup].options.element === that.options.element){
+			popupArray.splice(counter, 1);
+		}
+	counter++;
+	}
+	document.querySelector(that.options.element).remove();
 }
 
 /**
@@ -180,14 +191,6 @@ Popup.prototype.getContent = function() {
 	var that = this;
 	return that.content;
 }
-/**
- * [appendTo description]
- * @param  {[type]} selector [description]
- * @return {[type]}          [description]
- */
-Popup.prototype.appendTo = function(selector) {
-
-};
 
 /**
  * [getPopup description]
@@ -202,12 +205,30 @@ var getPopup = function(popupElement){
 		}
 	}
 }
-
+/**
+ * [createOverlay description]
+ * @return {[type]} [description]
+ */
+var createOverlay = function() {
+	var overlay = document.createElement("div");
+	overlay.style.bottom="0";
+	overlay.style.right="0";
+	overlay.style.top="0";
+	overlay.style["margin-left"]="15px";
+	overlay.style["margin-right"]="15px";
+	overlay.style["margin-bottom"]="30px";
+	overlay.style.left="0";
+	overlay.style.position="absolute";
+	overlay.style["background-color"]= "black";
+	overlay.style.opacity= "0.6";
+	return overlay;
+}
 
 return {
 	hide: this.hide,
 	show: this.show,
 	create: creator,
+	createOverlay: createOverlay,
 	getPopup: getPopup,
 	popups: popups,
 }

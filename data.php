@@ -1,8 +1,6 @@
 <?php 
-header("Content-Type: application/javascript");
-$callback = $_GET["callback"];
+$restauracjaRequest = $_POST['restauracja'];
 
-$restauracjaRequest = $_GET['restauracja'];
 
 if(!$restauracjaRequest):
 ?>
@@ -35,11 +33,11 @@ if(!$restauracjaRequest){
 	foreach($restauracje as $index => $restauracja) {
 		if($restauracja['nazwa'] == $restauracjaRequest)
 		{
-			echo $callback."(".json_encode($restauracja).")";
+			echo json_encode($restauracja);
 			return 1;
 		}
 	}
-	echo $callback."(".json_encode(["error" => "nie znaleziono!"]).")";
+	echo json_encode(["error" => "nie znaleziono!"]);
 }
 
 ?>
