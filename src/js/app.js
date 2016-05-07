@@ -1,4 +1,3 @@
 debug = boldTemplate.debug;
 
-window.boldDebug.show();
-
+BOLD.debug.show();
